@@ -1,0 +1,4 @@
+Filename,Enhance_Latency_ms,Detect_Latency_ms,Num_Detections
+sample_001.png,170.49,65.69,48
+sample_002.png,160.21,59.51,45
+sample_003.png,163.55,64.79,47

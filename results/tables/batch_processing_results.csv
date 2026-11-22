@@ -1,0 +1,5 @@
+Filename,Resolution,Enhancement_Model,Enhance_Latency_ms,Detect_Latency_ms,Total_Latency_ms,Objects_Detected,Detected_Classes
+sample_001.png,384x256,IGR-Net,166.1,61.7,227.8,39,bench
+sample_002.png,384x256,IGR-Net,161.4,57.2,218.5,38,bench
+sample_003.png,384x256,IGR-Net,165.2,56.2,221.4,37,bench
+sample_004.png,384x256,IGR-Net,186.0,67.0,253.0,38,bench
