@@ -56,6 +56,31 @@ This platform implements and evaluates a **Recognition-Aware Low-Light Enhanceme
 
 ---
 
+## 🖼️ Application Showcase
+
+The research platform provides a unified real-time evaluation environment comparing physical Retinex enhancement with downstream D-FINE-S object detection.
+
+### 1. Research Dashboard & Four-Way Side-by-Side Comparison
+Displays active image acquisition, real-time enhancement latencies, and side-by-side detection bounding boxes across all 4 conditions (Original Raw Baseline, Zero-DCE, Proposed IGR-Net, and Retinexformer).
+
+![Dashboard & Four-Way Comparison](docs/screenshots/01_dashboard_comparison.png)
+
+---
+
+### 2. Model Performance Analytics & Ground-Truth Verification
+Dynamic comparative analytics showing bounding-box counts, inference latency breakdown (Enhancement vs. D-FINE-S Detector), and decoupled ExDark benchmark controls.
+
+![Model Performance Analytics](docs/screenshots/02_model_performance_analytics.png)
+
+---
+
+### 3. Detected Objects Detailed Inspection
+Detailed coordinate tables showing predicted classes, detection confidence scores, and bounding box coordinates $[x_1, y_1, x_2, y_2]$ for granular inspection.
+
+![Detected Objects Inspection](docs/screenshots/03_detected_objects_inspection.png)
+
+---
+
 ## 🔬 Model Architectures & Parameter Summary
 
 | Condition | Method | Core Mechanism | Enhancer Params | Detector Params | Execution Device |
@@ -93,7 +118,11 @@ $$\text{AP} = \int_{0}^{1} p(r) \, dr, \quad \text{mAP} = \frac{1}{N_{cls}} \sum
 Recognition-Aware-Low-Light-Enhancement-Platform/
 ├── app/
 │   └── app.py                      # Main Streamlit Dashboard
-├── docs/                           # Technical documentation and guides
+├── docs/
+│   └── screenshots/                # Application Screenshots
+│       ├── 01_dashboard_comparison.png
+│       ├── 02_model_performance_analytics.png
+│       └── 03_detected_objects_inspection.png
 ├── evaluation/
 │   ├── detailed_evaluator.py       # Class-aware IoU matching engine & mAP calculator
 │   └── exdark_parser.py            # Multi-format annotation parser (TXT, JSON, XML)
