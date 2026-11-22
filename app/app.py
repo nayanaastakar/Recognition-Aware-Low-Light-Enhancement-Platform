@@ -11,7 +11,7 @@ import plotly.express as px
 # PAGE CONFIGURATION
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="SENTINEX-CV | Low-Light AI Research Suite",
+    page_title="Recognition-Aware Low-Light AI Research Suite",
     page_icon="🔬",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -346,8 +346,7 @@ st.markdown("""
 <div class="sentinex-header">
     <div>
         <div class="sentinex-title">
-            <span>🔬 SENTINEX-CV</span>
-            <span style="font-size: 1.0rem; font-weight: 400; color: #38bdf8;">| Recognition-Aware Low-Light Evaluation Suite</span>
+            <span>🔬 Recognition-Aware Low-Light Evaluation Suite</span>
         </div>
         <div class="sentinex-subtitle">
             Evaluating Physical Retinex Decomposition (IGR-Net) vs. SOTA Baselines under MS-COCO Pretrained D-FINE-S Object Detection

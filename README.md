@@ -7,7 +7,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 > **M.Tech Minor Project — System Architecture, Implementation & Technical Verification Suite**  
-> **Platform Name:** SENTINEX-CV Research Suite  
 > **Repository:** [https://github.com/nayanaastakar/Recognition-Aware-Low-Light-Enhancement-Platform](https://github.com/nayanaastakar/Recognition-Aware-Low-Light-Enhancement-Platform)
 
 ---
@@ -93,20 +92,8 @@ $$\text{AP} = \int_{0}^{1} p(r) \, dr, \quad \text{mAP} = \frac{1}{N_{cls}} \sum
 ```
 Recognition-Aware-Low-Light-Enhancement-Platform/
 ├── app/
-│   └── app.py                      # Main SENTINEX-CV Streamlit Dashboard
-├── docs/
-│   └── screenshots/                # 11 Verified Application Screenshots
-│       ├── 01_dashboard_overview.png
-│       ├── 02_pipeline_architecture.png
-│       ├── 03_four_way_comparison.png
-│       ├── 04_analytics_detection_latency.png
-│       ├── 05_analytics_luminance_contrast.png
-│       ├── 06_analytics_transparency_matrix.png
-│       ├── 07_benchmark_verification_overview.png
-│       ├── 08_exdark_benchmark_results.png
-│       ├── 09_detected_objects_inspection.png
-│       ├── 10_scene_00026_four_way_comparison.png
-│       └── 11_scene_00026_benchmark_results.png
+│   └── app.py                      # Main Streamlit Dashboard
+├── docs/                           # Technical documentation and guides
 ├── evaluation/
 │   ├── detailed_evaluator.py       # Class-aware IoU matching engine & mAP calculator
 │   └── exdark_parser.py            # Multi-format annotation parser (TXT, JSON, XML)
