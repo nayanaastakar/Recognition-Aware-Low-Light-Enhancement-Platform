@@ -765,8 +765,6 @@ if acquired_image is not None:
                     has_preloaded_gt = True
                     active_gt_path = p
 
-            bm_tab1, bm_tab2 = st.tabs(["⚡ Verified Ground-Truth (Instant)", "📁 Custom File Upload"])
-            
             eval_trigger = False
             raw_annotation_content = None
             annotation_source_name = None
@@ -778,23 +776,27 @@ if acquired_image is not None:
                 eval_trigger = True
                 del st.session_state["pending_eval_annot"]
 
-            with bm_tab1:
-                if has_preloaded_gt:
-                    st.success(f"🎯 **Verified Ground-Truth Ready:** `{gt_file_for_active}` matches current scene `{image_name}`.")
-                    if st.button("🚀 Run Benchmark with Verified Ground Truth", type="primary", use_container_width=True, key="btn_run_preloaded"):
-                        with open(active_gt_path, "r", encoding="utf-8") as f:
-                            raw_annotation_content = f.read()
-                        annotation_source_name = gt_file_for_active
-                        eval_trigger = True
-                else:
-                    st.info(f"ℹ️ Active image `{image_name}` does not have a bundled ground-truth file. Use 'Custom File Upload'.")
+            # Prominent One-Click Verified Benchmark if preloaded ground truth exists for active scene
+            if has_preloaded_gt:
+                st.markdown(f"""
+                <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+                    <div style="font-weight: 600; color: #10b981; font-size: 0.95rem;">🎯 Verified Ground Truth Ready for Active Scene</div>
+                    <div style="color: #94a3b8; font-size: 0.85rem; margin-top: 4px;">
+                        Annotation file: <code>{gt_file_for_active}</code> directly matches <code>{image_name}</code> ({acquired_image.size[0]}×{acquired_image.size[1]} px).
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+                if st.button("⚡ Run Benchmark with Verified Ground Truth", type="primary", use_container_width=True, key="btn_run_preloaded_direct"):
+                    with open(active_gt_path, "r", encoding="utf-8") as f:
+                        raw_annotation_content = f.read()
+                    annotation_source_name = gt_file_for_active
+                    eval_trigger = True
 
-            with bm_tab2:
+            with st.expander("📁 Upload Custom Annotation File (TXT / XML / JSON)", expanded=(not has_preloaded_gt)):
                 annot_file = st.file_uploader("Upload ExDark Annotations (TXT / JSON / XML):", type=["txt", "json", "xml"], key="exdark_uploader")
                 if annot_file is not None:
                     uploaded_fname = annot_file.name
                     target_candidate = None
-                    # Do not flag as mismatch if the uploaded image is a Roboflow export of the same scene
                     is_same_scene = ('2015_00026' in uploaded_fname and '2015_00026' in image_name) or \
                                     ('2015_00005' in uploaded_fname and '2015_00005' in image_name) or \
                                     ('2015_02446' in uploaded_fname and '2015_02446' in image_name)
@@ -816,7 +818,7 @@ if acquired_image is not None:
                             }
                             st.rerun()
 
-                    if st.button("🚀 Run ExDark Benchmark on Current Image", use_container_width=True, key="btn_run_uploaded"):
+                    if st.button("🚀 Run ExDark Benchmark with Uploaded File", use_container_width=True, key="btn_run_uploaded"):
                         raw_annotation_content = annot_file.getvalue().decode("utf-8", errors="ignore")
                         annotation_source_name = annot_file.name
                         eval_trigger = True
