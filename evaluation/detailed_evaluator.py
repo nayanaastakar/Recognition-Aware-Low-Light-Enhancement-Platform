@@ -34,10 +34,42 @@ def compute_detailed_detection_metrics(predictions, ground_truths, iou_threshold
         union_area = float(boxA_area + boxB_area - inter_area)
         return inter_area / union_area if union_area > 0 else 0.0
 
-    # Synonym mapping between COCO predictions and ExDark annotations
+    # Comprehensive synonym and alias mapping between COCO predictions and ExDark annotations
     SYNONYM_MAP = {
+        # Person / People
+        'person': 'people',
+        'people': 'people',
+        'pedestrian': 'people',
+        
+        # Chair / Bench
         'chair': 'chair',
-        'bench': 'chair',  # COCO 'bench' corresponds to ExDark 'chair' category
+        'bench': 'chair',
+        
+        # Motorbike / Motorcycle
+        'motorcycle': 'motorbike',
+        'motorbike': 'motorbike',
+        
+        # Bicycle / Bike
+        'bicycle': 'bicycle',
+        'bike': 'bicycle',
+        
+        # Vehicle mappings
+        'car': 'car',
+        'automobile': 'car',
+        'bus': 'bus',
+        'truck': 'car',
+        'boat': 'boat',
+        'ship': 'boat',
+        
+        # Animals
+        'cat': 'cat',
+        'dog': 'dog',
+        
+        # Objects
+        'cup': 'cup',
+        'bottle': 'bottle',
+        'dining table': 'table',
+        'table': 'table'
     }
 
     def canonical_class(c):
