@@ -415,6 +415,7 @@ if input_mode == "Sample Images":
     sample_options = [
         "yellow_bicycle_bench.png (Yellow Bicycle & Bench - Primary Test)",
         "2015_00026.jpg (ExDark Night Bicycle - Official Ground Truth)",
+        "2015_00005.jpg (ExDark Low-Light Bicycle - Ground Truth Verified)",
         "2015_02446.jpg (ExDark Street Cars - Ground Truth Verified)",
         "bicycle_extracted.png (Night Parking Scene)",
         "sample_001.png (Indoor Severe Low-Light)",
@@ -454,6 +455,7 @@ detector.detector.conf_threshold = conf_thresh
 # Invalidate cache if target image changed
 if "current_image" in st.session_state and st.session_state["current_image"] != image_name:
     st.session_state.pop("results", None)
+    st.session_state.pop("exdark_benchmark", None)
     st.session_state["current_image"] = image_name
 
 # -----------------------------------------------------------------------------
