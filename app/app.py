@@ -794,11 +794,17 @@ if acquired_image is not None:
                 if annot_file is not None:
                     uploaded_fname = annot_file.name
                     target_candidate = None
-                    for s_img, s_txt in SAMPLE_GT_LOOKUP.items():
-                        if s_txt.lower() == uploaded_fname.lower() or (uploaded_fname.startswith("2015_") and uploaded_fname.split(".")[0] in s_img):
-                            if s_img != image_name:
-                                target_candidate = s_img
-                            break
+                    # Do not flag as mismatch if the uploaded image is a Roboflow export of the same scene
+                    is_same_scene = ('2015_00026' in uploaded_fname and '2015_00026' in image_name) or \
+                                    ('2015_00005' in uploaded_fname and '2015_00005' in image_name) or \
+                                    ('2015_02446' in uploaded_fname and '2015_02446' in image_name)
+                    
+                    if not is_same_scene:
+                        for s_img, s_txt in SAMPLE_GT_LOOKUP.items():
+                            if s_txt.lower() == uploaded_fname.lower() or (uploaded_fname.startswith("2015_") and uploaded_fname.split(".")[0] in s_img):
+                                if s_img != image_name:
+                                    target_candidate = s_img
+                                break
                     
                     if target_candidate is not None:
                         st.warning(f"⚠️ **Scene Mismatch Warning:**\nUploaded `{uploaded_fname}` is ground truth for `{target_candidate}`, but current active scene is `{image_name}` ({acquired_image.size[0]}×{acquired_image.size[1]} px).\n\nEvaluating on a different image causes **0% IoU (0 True Positives)**.")
