@@ -909,7 +909,7 @@ if acquired_image is not None:
 
                 # Bounding Box Match Details (Inspection Table)
                 if "matches" in b_metrics and b_metrics["matches"]:
-                    with st.expander(f"🔍 Bounding Box IoU Matches & Overlap Analysis ({b_name})", expanded=(b_metrics['tp'] > 0)):
+                    with st.expander(f"🔍 Bounding Box IoU Matches & Overlap Analysis ({b_name})", expanded=True):
                         st.dataframe(b_metrics["matches"], use_container_width=True)
             st.markdown("---")
 
