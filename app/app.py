@@ -821,19 +821,26 @@ if acquired_image is not None:
                                 break
                     
                     if target_candidate is not None:
-                        st.warning(f"⚠️ **Scene Mismatch Warning:**\nUploaded `{uploaded_fname}` is ground truth for `{target_candidate}`, but current active scene is `{image_name}` ({acquired_image.size[0]}×{acquired_image.size[1]} px).\n\nEvaluating on a different image causes **0% IoU (0 True Positives)** because the objects are in different positions.")
-                        if st.button(f"👉 Automatically Switch Scene to '{target_candidate}' & Run Benchmark", type="primary", use_container_width=True, key="btn_switch_sample"):
-                            st.session_state["override_sample"] = target_candidate
-                            st.session_state["pending_eval_annot"] = {
-                                "name": uploaded_fname,
-                                "content": annot_file.getvalue().decode("utf-8", errors="ignore")
-                            }
-                            st.rerun()
-
-                    if st.button("🚀 Run ExDark Benchmark with Uploaded File", use_container_width=True, key="btn_run_uploaded"):
-                        raw_annotation_content = annot_file.getvalue().decode("utf-8", errors="ignore")
-                        annotation_source_name = annot_file.name
-                        eval_trigger = True
+                        st.warning(f"⚠️ **Scene Mismatch Notice:**\nUploaded `{uploaded_fname}` belongs to scene `{target_candidate}`, but the current active scene is `{image_name}`.\n\nBecause objects are at different coordinates, evaluating on `{image_name}` produces 0 TP.")
+                        col_sw1, col_sw2 = st.columns([1, 1])
+                        with col_sw1:
+                            if st.button(f"👉 Auto-Switch to '{target_candidate}' & Evaluate (Recommended)", type="primary", use_container_width=True, key="btn_switch_sample"):
+                                st.session_state["override_sample"] = target_candidate
+                                st.session_state["pending_eval_annot"] = {
+                                    "name": uploaded_fname,
+                                    "content": annot_file.getvalue().decode("utf-8", errors="ignore")
+                                }
+                                st.rerun()
+                        with col_sw2:
+                            if st.button("Force Run on Current Image Anyway", use_container_width=True, key="btn_force_run"):
+                                raw_annotation_content = annot_file.getvalue().decode("utf-8", errors="ignore")
+                                annotation_source_name = annot_file.name
+                                eval_trigger = True
+                    else:
+                        if st.button("🚀 Run ExDark Benchmark with Uploaded File", type="primary", use_container_width=True, key="btn_run_uploaded"):
+                            raw_annotation_content = annot_file.getvalue().decode("utf-8", errors="ignore")
+                            annotation_source_name = annot_file.name
+                            eval_trigger = True
 
             if eval_trigger and raw_annotation_content is not None:
                 try:
