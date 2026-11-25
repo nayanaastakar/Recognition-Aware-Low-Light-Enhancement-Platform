@@ -404,13 +404,25 @@ with st.expander("📌 Pipeline Architecture & Downstream D-FINE-S Integration (
 # SIDEBAR CONTROLS (COMPACT & GROUPED)
 # -----------------------------------------------------------------------------
 st.sidebar.markdown("### 🎛️ Inference Controls")
-input_mode = st.sidebar.radio("Input Source Mode:", ["Sample Images", "Upload Image", "Webcam Capture"])
+input_mode = st.sidebar.radio("Input Source Mode:", ["Upload Image", "Webcam Capture", "Sample Images"])
 
 # Image Acquisition placed immediately with mode to preserve natural flow
 acquired_image = None
 image_name = "custom_input"
 
-if input_mode == "Sample Images":
+if input_mode == "Upload Image":
+    uploaded_file = st.sidebar.file_uploader("Upload PNG/JPG:", type=["png", "jpg", "jpeg"], key="uploader")
+    if uploaded_file is not None:
+        acquired_image = Image.open(uploaded_file).convert("RGB")
+        image_name = uploaded_file.name
+
+elif input_mode == "Webcam Capture":
+    camera_file = st.sidebar.camera_input("Capture frame:")
+    if camera_file is not None:
+        acquired_image = Image.open(camera_file).convert("RGB")
+        image_name = "webcam_frame.png"
+
+elif input_mode == "Sample Images":
     samples_dir = os.path.join(PROJECT_ROOT, "data", "samples", "low")
     sample_options = [
         "yellow_bicycle_bench.png (Yellow Bicycle & Bench - Primary Test)",
@@ -436,18 +448,6 @@ if input_mode == "Sample Images":
     sample_path = os.path.join(samples_dir, fname)
     if os.path.exists(sample_path):
         acquired_image = Image.open(sample_path).convert("RGB")
-
-elif input_mode == "Upload Image":
-    uploaded_file = st.sidebar.file_uploader("Upload PNG/JPG:", type=["png", "jpg", "jpeg"], key="uploader")
-    if uploaded_file is not None:
-        acquired_image = Image.open(uploaded_file).convert("RGB")
-        image_name = uploaded_file.name
-
-elif input_mode == "Webcam Capture":
-    camera_file = st.sidebar.camera_input("Capture frame:")
-    if camera_file is not None:
-        acquired_image = Image.open(camera_file).convert("RGB")
-        image_name = "webcam_frame.png"
 
 conf_thresh = st.sidebar.slider("D-FINE-S Threshold (τ):", min_value=0.10, max_value=0.90, value=0.25, step=0.05)
 detector.detector.conf_threshold = conf_thresh
