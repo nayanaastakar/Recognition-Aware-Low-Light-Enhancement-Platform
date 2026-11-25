@@ -748,15 +748,18 @@ if acquired_image is not None:
                 "2015_02446.jpg": "2015_02446.jpg.txt",
                 "2015_00005.jpg": "2015_00005.jpg.txt"
             }
-            
-            # Benchmark parameters
-            col_b_opt1, col_b_opt2 = st.columns(2)
-            with col_b_opt1:
-                benchmark_iou = st.slider("Benchmark IoU Threshold:", min_value=0.30, max_value=0.75, value=0.50, step=0.05)
-            with col_b_opt2:
-                eval_branch = st.selectbox("Evaluate Condition:", ["All 4 Conditions", "IGR-Net (Proposed)", "Zero-DCE", "Retinexformer", "Original (Baseline)"])
 
+            # Check if active scene has a corresponding GT file in data/samples/low or anywhere in annotations
             gt_file_for_active = SAMPLE_GT_LOOKUP.get(image_name)
+            if not gt_file_for_active:
+                # Check by direct filename: e.g. <image_name>.txt or <basename>.txt
+                base_name = os.path.splitext(image_name)[0]
+                for cand in [f"{image_name}.txt", f"{base_name}.txt", f"{base_name}.png.txt", f"{base_name}.jpg.txt"]:
+                    cand_p = os.path.join(PROJECT_ROOT, "data", "samples", "low", cand)
+                    if os.path.exists(cand_p):
+                        gt_file_for_active = cand
+                        break
+
             has_preloaded_gt = False
             active_gt_path = None
             if gt_file_for_active:
@@ -764,6 +767,13 @@ if acquired_image is not None:
                 if os.path.exists(p):
                     has_preloaded_gt = True
                     active_gt_path = p
+
+            # Benchmark parameters
+            col_b_opt1, col_b_opt2 = st.columns(2)
+            with col_b_opt1:
+                benchmark_iou = st.slider("Benchmark IoU Threshold:", min_value=0.30, max_value=0.75, value=0.50, step=0.05)
+            with col_b_opt2:
+                eval_branch = st.selectbox("Evaluate Condition:", ["All 4 Conditions", "IGR-Net (Proposed)", "Zero-DCE", "Retinexformer", "Original (Baseline)"])
 
             eval_trigger = False
             raw_annotation_content = None
@@ -793,13 +803,15 @@ if acquired_image is not None:
                     eval_trigger = True
 
             with st.expander("📁 Upload Custom Annotation File (TXT / XML / JSON)", expanded=(not has_preloaded_gt)):
-                annot_file = st.file_uploader("Upload ExDark Annotations (TXT / JSON / XML):", type=["txt", "json", "xml"], key="exdark_uploader")
+                st.caption("Upload ground-truth bounding boxes for this active scene (Supports ExDark space-separated TXT, YOLO normalized TXT, CSV, Pascal VOC XML, or COCO JSON).")
+                annot_file = st.file_uploader("Upload Annotations (TXT / JSON / XML):", type=["txt", "json", "xml"], key="exdark_uploader")
                 if annot_file is not None:
                     uploaded_fname = annot_file.name
                     target_candidate = None
                     is_same_scene = ('2015_00026' in uploaded_fname and '2015_00026' in image_name) or \
                                     ('2015_00005' in uploaded_fname and '2015_00005' in image_name) or \
-                                    ('2015_02446' in uploaded_fname and '2015_02446' in image_name)
+                                    ('2015_02446' in uploaded_fname and '2015_02446' in image_name) or \
+                                    ('yellow_bicycle' in uploaded_fname and 'yellow_bicycle' in image_name)
                     
                     if not is_same_scene:
                         for s_img, s_txt in SAMPLE_GT_LOOKUP.items():
@@ -809,7 +821,7 @@ if acquired_image is not None:
                                 break
                     
                     if target_candidate is not None:
-                        st.warning(f"⚠️ **Scene Mismatch Warning:**\nUploaded `{uploaded_fname}` is ground truth for `{target_candidate}`, but current active scene is `{image_name}` ({acquired_image.size[0]}×{acquired_image.size[1]} px).\n\nEvaluating on a different image causes **0% IoU (0 True Positives)**.")
+                        st.warning(f"⚠️ **Scene Mismatch Warning:**\nUploaded `{uploaded_fname}` is ground truth for `{target_candidate}`, but current active scene is `{image_name}` ({acquired_image.size[0]}×{acquired_image.size[1]} px).\n\nEvaluating on a different image causes **0% IoU (0 True Positives)** because the objects are in different positions.")
                         if st.button(f"👉 Automatically Switch Scene to '{target_candidate}' & Run Benchmark", type="primary", use_container_width=True, key="btn_switch_sample"):
                             st.session_state["override_sample"] = target_candidate
                             st.session_state["pending_eval_annot"] = {

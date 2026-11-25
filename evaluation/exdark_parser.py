@@ -90,25 +90,42 @@ def parse_annotation_content(content_str, img_width, img_height, filename=""):
             continue
 
         # Case A: First element is numeric (YOLO format: class_id x_center y_center w h)
-        if re.match(r'^\d+$', parts[0]) and len(parts) == 5:
+        is_first_numeric = bool(re.match(r'^\d+(\.\d+)?$', parts[0]))
+        if is_first_numeric and len(parts) >= 5:
             try:
-                cls_id = int(parts[0])
+                cls_id = int(float(parts[0]))
                 cls_name = EXDARK_CLASSES[cls_id].lower() if cls_id < len(EXDARK_CLASSES) else f"class_{cls_id}"
-                xc = float(parts[1]) * img_width
-                yc = float(parts[2]) * img_height
-                w = float(parts[3]) * img_width
-                h = float(parts[4]) * img_height
-                x1 = int(max(0, xc - w / 2))
-                y1 = int(max(0, yc - h / 2))
-                x2 = int(min(img_width, xc + w / 2))
-                y2 = int(min(img_height, yc + h / 2))
-                gts.append({'class': cls_name, 'bbox': [x1, y1, x2, y2]})
-                continue
+                c1 = float(parts[1])
+                c2 = float(parts[2])
+                c3 = float(parts[3])
+                c4 = float(parts[4])
+                
+                # Check if normalized YOLO (0.0 to 1.0)
+                if c1 <= 1.0 and c2 <= 1.0 and c3 <= 1.0 and c4 <= 1.0:
+                    xc = c1 * img_width
+                    yc = c2 * img_height
+                    w = c3 * img_width
+                    h = c4 * img_height
+                    x1 = int(max(0, xc - w / 2))
+                    y1 = int(max(0, yc - h / 2))
+                    x2 = int(min(img_width, xc + w / 2))
+                    y2 = int(min(img_height, yc + h / 2))
+                else:
+                    # Absolute coords: xmin ymin w h or xmin ymin xmax ymax
+                    if c3 > c1 and c4 > c2 and c3 <= img_width and c4 <= img_height:
+                        x1, y1, x2, y2 = int(c1), int(c2), int(c3), int(c4)
+                    else:
+                        x1, y1, x2, y2 = int(c1), int(c2), int(c1 + c3), int(c2 + c4)
+                
+                if x2 > x1 and y2 > y1:
+                    gts.append({'class': cls_name, 'bbox': [x1, y1, x2, y2]})
+                    continue
             except Exception:
                 pass
 
-        # Case B: ExDark official format:
+        # Case B: ExDark official format or class name with coordinates:
         # Format: <class_name> <x_min> <y_min> <width> <height> ...
+        # Or: <class_name> <x_center> <y_center> <width> <height> (normalized)
         cls_candidate = parts[0].lower()
         try:
             val1 = float(parts[1])
@@ -118,26 +135,41 @@ def parse_annotation_content(content_str, img_width, img_height, filename=""):
 
             # Check if coordinates are normalized (0.0 to 1.0)
             if val1 <= 1.0 and val2 <= 1.0 and val3 <= 1.0 and val4 <= 1.0:
-                val1 *= img_width
-                val2 *= img_height
-                val3 *= img_width
-                val4 *= img_height
-
-            # In official ExDark dataset annotations:
-            # format is: <class> <x_min> <y_min> <width> <height> ...
-            # or if already absolute: <class> <xmin> <ymin> <xmax> <ymax>
-            if val3 > val1 and val4 > val2 and (val3 <= img_width) and (val4 <= img_height) and (val1 + val3 > img_width):
-                # Unambiguously xmin, ymin, xmax, ymax
-                x1 = int(val1)
-                y1 = int(val2)
-                x2 = int(val3)
-                y2 = int(val4)
+                # Distinguish YOLO (cx, cy, w, h) from (xmin, ymin, w, h)
+                # If val1 > val3/2 and val2 > val4/2, it could be either;
+                # in YOLO normalized center format:
+                # let's calculate both and bound safely:
+                # If center format: xmin = cx - w/2
+                if val1 >= val3 / 2.0 and val2 >= val4 / 2.0 and (val1 + val3 / 2.0 <= 1.05) and (val2 + val4 / 2.0 <= 1.05):
+                    # Normalized center format
+                    xc = val1 * img_width
+                    yc = val2 * img_height
+                    w = val3 * img_width
+                    h = val4 * img_height
+                    x1 = int(max(0, xc - w / 2))
+                    y1 = int(max(0, yc - h / 2))
+                    x2 = int(min(img_width, xc + w / 2))
+                    y2 = int(min(img_height, yc + h / 2))
+                else:
+                    # Normalized min-width format
+                    x1 = int(max(0, val1 * img_width))
+                    y1 = int(max(0, val2 * img_height))
+                    x2 = int(min(img_width, (val1 + val3) * img_width))
+                    y2 = int(min(img_height, (val2 + val4) * img_height))
             else:
-                # ExDark default: x_min, y_min, width, height
-                x1 = int(val1)
-                y1 = int(val2)
-                x2 = int(val1 + val3)
-                y2 = int(val2 + val4)
+                # Absolute coordinates
+                if val3 > val1 and val4 > val2 and (val3 <= img_width) and (val4 <= img_height) and (val1 + val3 > img_width):
+                    # Unambiguously xmin, ymin, xmax, ymax
+                    x1 = int(val1)
+                    y1 = int(val2)
+                    x2 = int(val3)
+                    y2 = int(val4)
+                else:
+                    # ExDark default: x_min, y_min, width, height
+                    x1 = int(val1)
+                    y1 = int(val2)
+                    x2 = int(val1 + val3)
+                    y2 = int(val2 + val4)
 
             # Bound to image dimensions
             x1 = max(0, min(img_width, x1))
