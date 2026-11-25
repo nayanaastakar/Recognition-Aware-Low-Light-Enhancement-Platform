@@ -348,15 +348,6 @@ st.markdown("""
         <div class="sentinex-title">
             <span>🔬 Recognition-Aware Low-Light Evaluation Suite</span>
         </div>
-        <div class="sentinex-subtitle">
-            Evaluating Physical Retinex Decomposition (IGR-Net) vs. SOTA Baselines under MS-COCO Pretrained D-FINE-S Object Detection
-        </div>
-    </div>
-    <div>
-        <div class="status-badge">
-            <div class="status-dot"></div>
-            <span>STRICT BENCHMARK MODE (OPTION B)</span>
-        </div>
     </div>
 </div>
 """, unsafe_allow_html=True)
