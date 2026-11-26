@@ -26,6 +26,7 @@ from inference.enhancement import EnhancementEngine
 from inference.detection import DetectionEngine
 from evaluation.exdark_parser import parse_annotation_content
 from evaluation.detailed_evaluator import compute_detailed_detection_metrics
+from evaluation.annotation_indexer import AnnotationIndexer
 
 # -----------------------------------------------------------------------------
 # PREMIUM RESEARCH LAB DARK THEME STYLING & FULL-WIDTH LAYOUT
@@ -330,14 +331,15 @@ st.markdown("""
 def load_engines():
     enhancer = EnhancementEngine(device='cpu')
     detector = DetectionEngine(conf_threshold=0.25, iou_threshold=0.45, device='cpu')
+    indexer = AnnotationIndexer(PROJECT_ROOT)
     
     # Warm-up pass to eliminate initial torch allocator & JIT overhead
     dummy = Image.fromarray(np.zeros((100, 100, 3), dtype=np.uint8))
     detector.detect_objects(dummy)
     
-    return enhancer, detector
+    return enhancer, detector, indexer
 
-enhancer, detector = load_engines()
+enhancer, detector, annotation_indexer = load_engines()
 
 # -----------------------------------------------------------------------------
 # TOP RESEARCH LAB HEADER
@@ -877,34 +879,10 @@ if acquired_image is not None:
             st.markdown("**Module A: ExDark Object Detection Benchmark (mAP / Precision / Recall)**")
             st.caption("Evaluate detection accuracy against ground-truth labels using class-aware IoU matching:")
             
-            # Map of known samples with verified ground truth
-            SAMPLE_GT_LOOKUP = {
-                "yellow_bicycle_bench.png": "yellow_bicycle_bench.png.txt",
-                "2015_00003.png": "2015_00003.png.txt",
-                "2015_00026.jpg": "2015_00026.jpg.txt",
-                "2015_02446.jpg": "2015_02446.jpg.txt",
-                "2015_00005.jpg": "2015_00005.jpg.txt"
-            }
-
-            # Check if active scene has a corresponding GT file in data/samples/low or anywhere in annotations
-            gt_file_for_active = SAMPLE_GT_LOOKUP.get(image_name)
-            if not gt_file_for_active:
-                # Check by direct filename: e.g. <image_name>.txt or <basename>.txt
-                base_name = os.path.splitext(image_name)[0]
-                for cand in [f"{image_name}.txt", f"{base_name}.txt", f"{base_name}.png.txt", f"{base_name}.jpg.txt"]:
-                    cand_p = os.path.join(PROJECT_ROOT, "data", "samples", "low", cand)
-                    if os.path.exists(cand_p):
-                        gt_file_for_active = cand
-                        break
-
-            has_preloaded_gt = False
-            active_gt_path = None
-            if gt_file_for_active:
-                p = os.path.join(PROJECT_ROOT, "data", "samples", "low", gt_file_for_active)
-                if os.path.exists(p):
-                    has_preloaded_gt = True
-                    active_gt_path = p
-
+            # Fast Automatic Annotation Lookup using AnnotationIndexer
+            auto_annot_path, match_type, match_warn = annotation_indexer.lookup(image_name)
+            has_auto_gt = auto_annot_path is not None and os.path.exists(auto_annot_path)
+            
             # Benchmark parameters
             col_b_opt1, col_b_opt2 = st.columns(2)
             with col_b_opt1:
@@ -923,23 +901,47 @@ if acquired_image is not None:
                 eval_trigger = True
                 del st.session_state["pending_eval_annot"]
 
-            # Prominent One-Click Verified Benchmark if preloaded ground truth exists for active scene
-            if has_preloaded_gt:
+            # Prominent One-Click Verified Benchmark if matched ground truth exists
+            if has_auto_gt:
+                matched_fname = os.path.basename(auto_annot_path)
+                # Count ground truth objects immediately for preview
+                try:
+                    with open(auto_annot_path, "r", encoding="utf-8", errors="ignore") as f_preview:
+                        preview_txt = f_preview.read()
+                    preview_gts = parse_annotation_content(preview_txt, acquired_image.size[0], acquired_image.size[1], filename=matched_fname)
+                    gt_obj_count = len(preview_gts)
+                    gt_classes_str = ", ".join(sorted(list(set(g['class'].capitalize() for g in preview_gts)))) if preview_gts else "None"
+                except Exception:
+                    gt_obj_count = 0
+                    gt_classes_str = "Unknown"
+
                 st.markdown(f"""
                 <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 12px; margin-bottom: 12px;">
-                    <div style="font-weight: 600; color: #10b981; font-size: 0.95rem;">🎯 Verified Ground Truth Ready for Active Scene</div>
-                    <div style="color: #94a3b8; font-size: 0.85rem; margin-top: 4px;">
-                        Annotation file: <code>{gt_file_for_active}</code> directly matches <code>{image_name}</code> ({acquired_image.size[0]}×{acquired_image.size[1]} px).
+                    <div style="font-weight: 600; color: #10b981; font-size: 0.95rem;">🎯 Automatic Ground-Truth Matched ({annotation_indexer.total_indexed:,} indexed files)</div>
+                    <div style="color: #cbd5e1; font-size: 0.85rem; margin-top: 4px;">
+                        Annotation File: <code>{matched_fname}</code> &nbsp;|&nbsp; Matching: <code>{match_type}</code> &nbsp;|&nbsp; <b>{gt_obj_count}</b> Ground-Truth Object(s) ({gt_classes_str})
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
-                if st.button("⚡ Run Benchmark with Verified Ground Truth", type="primary", use_container_width=True, key="btn_run_preloaded_direct"):
-                    with open(active_gt_path, "r", encoding="utf-8") as f:
-                        raw_annotation_content = f.read()
-                    annotation_source_name = gt_file_for_active
-                    eval_trigger = True
+                
+                if match_warn:
+                    st.caption(f"ℹ️ {match_warn}")
 
-            with st.expander("📁 Upload Custom Annotation File (TXT / XML / JSON)", expanded=(not has_preloaded_gt)):
+                if st.button("⚡ Run Benchmark with Matched Ground Truth", type="primary", use_container_width=True, key="btn_run_preloaded_direct"):
+                    raw_annotation_content = preview_txt
+                    annotation_source_name = matched_fname
+                    eval_trigger = True
+            else:
+                st.markdown(f"""
+                <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+                    <div style="font-weight: 600; color: #ef4444; font-size: 0.95rem;">⚠️ No Automatic Ground-Truth Annotation Found</div>
+                    <div style="color: #94a3b8; font-size: 0.85rem; margin-top: 4px;">
+                        Image <code>{image_name}</code> does not match any indexed ExDark annotation. Please use 'Upload Custom Annotation File' below to supply labels.
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with st.expander("📁 Upload Custom Annotation File (TXT / XML / JSON)", expanded=(not has_auto_gt)):
                 st.caption("Upload ground-truth bounding boxes for this active scene (Supports ExDark space-separated TXT, YOLO normalized TXT, CSV, Pascal VOC XML, or COCO JSON).")
                 annot_file = st.file_uploader("Upload Annotations (TXT / JSON / XML):", type=["txt", "json", "xml"], key="exdark_uploader")
                 if annot_file is not None:
