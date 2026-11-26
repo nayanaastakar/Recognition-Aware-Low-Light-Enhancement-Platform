@@ -41,3 +41,7 @@ scripts/find_scrollable.py
 .system_generated/
 .DS_Store
 Thumbs.db
+
+# Large Datasets
+data/datasets/
+*.zip

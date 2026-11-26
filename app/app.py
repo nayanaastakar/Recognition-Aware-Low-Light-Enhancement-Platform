@@ -594,7 +594,12 @@ if acquired_image is not None:
         # ---------------------------------------------------------
         st.markdown('<div class="section-title">📊 Model Performance Analytics</div>', unsafe_allow_html=True)
         
-        tab_c1, tab_c2, tab_c3 = st.tabs(["⚡ Detection & Latency Dynamics", "📈 Luminance & Contrast Spread", "🔬 Benchmark Transparency Matrix"])
+        tab_c1, tab_c2, tab_c3, tab_c4 = st.tabs([
+            "⚡ Detection & Latency Dynamics", 
+            "📈 Luminance & Contrast Spread", 
+            "🔬 Benchmark Transparency Matrix",
+            "🏆 Dataset-Level Aggregate Experiments (N=100 ExDark & N=15 LOL)"
+        ])
 
         with tab_c1:
             col_c1, col_c2 = st.columns(2)
@@ -720,6 +725,147 @@ if acquired_image is not None:
                     "NIQE": "Pending (scikit-image / pyiqa Req.)"
                 })
             st.table(bench_data)
+
+        with tab_c4:
+            st.markdown("### 🏆 Comprehensive Multi-Image Cohort & Dataset-Level Analytics")
+            st.caption("Empirical evaluations computed across the full LOL eval15 reference dataset and a balanced 100-image ExDark test cohort using pretrained D-FINE-S.")
+            
+            exdark_cohort_file = os.path.join(PROJECT_ROOT, "outputs", "experiments", "exdark_cohort_results.json")
+            lol_results_file = os.path.join(PROJECT_ROOT, "outputs", "experiments", "lol_benchmark_results.json")
+            thresh_results_file = os.path.join(PROJECT_ROOT, "outputs", "experiments", "threshold_ablation_results.json")
+            
+            col_ds1, col_ds2 = st.columns(2)
+            
+            with col_ds1:
+                st.markdown("#### 🎯 ExDark Object Detection Benchmark (N=100 Scenes, τ=0.25)")
+                if os.path.exists(exdark_cohort_file):
+                    with open(exdark_cohort_file, "r") as f:
+                        ed_data = json.load(f)
+                    
+                    ed_table = []
+                    for m in ["Original", "Zero-DCE", "IGR-Net", "Retinexformer"]:
+                        if m in ed_data:
+                            ed_table.append({
+                                "Condition": m,
+                                "mAP@50": f"{ed_data[m]['mAP@50']:.3f}",
+                                "Precision": f"{ed_data[m]['precision']:.3f}",
+                                "Recall": f"{ed_data[m]['recall']:.3f}",
+                                "F1-Score": f"{ed_data[m]['f1_score']:.3f}",
+                                "True Positives (TP)": ed_data[m]['tp'],
+                                "False Positives (FP)": ed_data[m]['fp'],
+                                "Total Latency (ms)": f"{ed_data[m]['total_latency']:.1f}"
+                            })
+                    st.dataframe(ed_table, use_container_width=True)
+                    
+                    # Bar chart of mAP@50 vs F1-score
+                    fig_map = go.Figure()
+                    fig_map.add_trace(go.Bar(
+                        x=[r["Condition"] for r in ed_table],
+                        y=[float(r["mAP@50"]) for r in ed_table],
+                        name="mAP@50",
+                        marker_color="#38bdf8"
+                    ))
+                    fig_map.add_trace(go.Bar(
+                        x=[r["Condition"] for r in ed_table],
+                        y=[float(r["F1-Score"]) for r in ed_table],
+                        name="F1-Score",
+                        marker_color="#10b981"
+                    ))
+                    fig_map.update_layout(
+                        barmode='group',
+                        title="ExDark Detection Metrics (mAP@50 vs F1-Score)",
+                        paper_bgcolor="#0d1424", plot_bgcolor="#0d1424",
+                        font=dict(color="#d1d7e0", family="Plus Jakarta Sans"),
+                        margin=dict(l=30, r=20, t=35, b=30), height=260
+                    )
+                    st.plotly_chart(fig_map, use_container_width=True)
+                else:
+                    st.info("Execute run_academic_experiments.py to populate ExDark cohort metrics.")
+                    
+            with col_ds2:
+                st.markdown("#### 🔬 LOL Paired Image Quality Benchmark (N=15 eval15)")
+                if os.path.exists(lol_results_file):
+                    with open(lol_results_file, "r") as f:
+                        lol_data = json.load(f)
+                    
+                    lol_table = []
+                    for m in ["Original", "Zero-DCE", "IGR-Net", "Retinexformer"]:
+                        if m in lol_data:
+                            lol_table.append({
+                                "Enhancer": m,
+                                "PSNR (dB)": f"{lol_data[m]['avg_psnr']:.2f}",
+                                "SSIM": f"{lol_data[m]['avg_ssim']:.4f}",
+                                "NIQE (Naturalness)": f"{lol_data[m]['avg_niqe']:.2f}",
+                                "Enhancement Time": f"{lol_data[m]['avg_enh_latency']:.1f} ms"
+                            })
+                    st.dataframe(lol_table, use_container_width=True)
+                    
+                    # Radar / Group Bar of PSNR
+                    fig_psnr = go.Figure(data=[
+                        go.Bar(
+                            x=[r["Enhancer"] for r in lol_table],
+                            y=[float(r["PSNR (dB)"]) for r in lol_table],
+                            text=[r["PSNR (dB)"] + " dB" for r in lol_table],
+                            textposition='auto',
+                            marker_color=['#64748b', '#38bdf8', '#10b981', '#a855f7']
+                        )
+                    ])
+                    fig_psnr.update_layout(
+                        title="LOL Image Quality: PSNR (dB)",
+                        paper_bgcolor="#0d1424", plot_bgcolor="#0d1424",
+                        font=dict(color="#d1d7e0", family="Plus Jakarta Sans"),
+                        margin=dict(l=30, r=20, t=35, b=30), height=260
+                    )
+                    st.plotly_chart(fig_psnr, use_container_width=True)
+                else:
+                    st.info("Execute run_academic_experiments.py to populate LOL metrics.")
+                    
+            # Confidence Threshold Section
+            if os.path.exists(thresh_results_file):
+                st.markdown("#### 🎚️ Downstream Detector Confidence Threshold Ablation (τ ∈ [0.15, 0.25, 0.35, 0.50])")
+                with open(thresh_results_file, "r") as f:
+                    th_data = json.load(f)
+                
+                th_cols = st.columns(2)
+                for c_idx, cond in enumerate(["Original", "IGR-Net"]):
+                    if cond in th_data:
+                        with th_cols[c_idx]:
+                            st.markdown(f"**Condition: {cond}**")
+                            th_rows = []
+                            for th_val, vals in th_data[cond].items():
+                                th_rows.append({
+                                    "Threshold (τ)": f"{float(th_val):.2f}",
+                                    "Precision": f"{vals['precision']:.3f}",
+                                    "Recall": f"{vals['recall']:.3f}",
+                                    "F1-Score": f"{vals['f1_score']:.3f}",
+                                    "True Positives (TP)": vals["tp"],
+                                    "False Positives (FP)": vals["fp"]
+                                })
+                            st.dataframe(th_rows, use_container_width=True)
+
+            # Downloadable Academic Evaluation CSV Reports
+            st.markdown("#### 📥 Downloadable Academic Evaluation Reports")
+            col_dl1, col_dl2 = st.columns(2)
+            with col_dl1:
+                if os.path.exists(exdark_cohort_file):
+                    with open(exdark_cohort_file, "r") as f:
+                        st.download_button(
+                            label="⬇️ Download ExDark Cohort Evaluation JSON/CSV",
+                            data=f.read(),
+                            file_name="exdark_cohort_evaluation_report.json",
+                            mime="application/json",
+                            use_container_width=True
+                        )
+            with col_dl2:
+                if os.path.exists(lol_results_file):
+                    with open(lol_results_file, "r") as f:
+                        st.download_button(
+                            label="⬇️ Download LOL Image Quality Report JSON/CSV",
+                            data=f.read(),
+                            file_name="lol_image_quality_report.json",
+                            mime="application/json",
+                            use_container_width=True
+                        )
 
         # ---------------------------------------------------------
         # GROUND TRUTH BENCHMARK VERIFICATION MODULE (SEPARATED & FULLY FUNCTIONAL)

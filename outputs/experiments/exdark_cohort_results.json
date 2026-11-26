@@ -1,0 +1,1586 @@
+{
+  "Original": {
+    "mAP@50": 0.48666716430927265,
+    "precision": 0.18064118372379778,
+    "recall": 0.839541547277937,
+    "f1_score": 0.29731100963977675,
+    "tp": 293,
+    "fp": 1329,
+    "fn": 56,
+    "total_gt": 349,
+    "total_pred": 1622,
+    "avg_enh_latency": 0.0,
+    "avg_det_latency": 422.88896560668945,
+    "total_latency": 422.88896560668945,
+    "class_breakdown": {
+      "apple": {
+        "gt": 0,
+        "pred": 5,
+        "tp": 0,
+        "fp": 5,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "backpack": {
+        "gt": 0,
+        "pred": 52,
+        "tp": 0,
+        "fp": 52,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "banana": {
+        "gt": 0,
+        "pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "bed": {
+        "gt": 0,
+        "pred": 2,
+        "tp": 0,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "bicycle": {
+        "gt": 163,
+        "pred": 441,
+        "tp": 139,
+        "fp": 302,
+        "fn": 24,
+        "precision": 0.31519274376417233,
+        "recall": 0.852760736196319,
+        "ap": 0.7650022962143477
+      },
+      "bird": {
+        "gt": 0,
+        "pred": 4,
+        "tp": 0,
+        "fp": 4,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "boat": {
+        "gt": 0,
+        "pred": 4,
+        "tp": 0,
+        "fp": 4,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "book": {
+        "gt": 0,
+        "pred": 57,
+        "tp": 0,
+        "fp": 57,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "bottle": {
+        "gt": 0,
+        "pred": 8,
+        "tp": 0,
+        "fp": 8,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "bus": {
+        "gt": 1,
+        "pred": 15,
+        "tp": 1,
+        "fp": 14,
+        "fn": 0,
+        "precision": 0.06666666666666667,
+        "recall": 1.0,
+        "ap": 0.1
+      },
+      "car": {
+        "gt": 26,
+        "pred": 190,
+        "tp": 25,
+        "fp": 165,
+        "fn": 1,
+        "precision": 0.13157894736842105,
+        "recall": 0.9615384615384616,
+        "ap": 0.8740135374406474
+      },
+      "cat": {
+        "gt": 0,
+        "pred": 3,
+        "tp": 0,
+        "fp": 3,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "cell phone": {
+        "gt": 0,
+        "pred": 4,
+        "tp": 0,
+        "fp": 4,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "chair": {
+        "gt": 9,
+        "pred": 47,
+        "tp": 4,
+        "fp": 43,
+        "fn": 5,
+        "precision": 0.0851063829787234,
+        "recall": 0.4444444444444444,
+        "ap": 0.3095238095238095
+      },
+      "clock": {
+        "gt": 0,
+        "pred": 15,
+        "tp": 0,
+        "fp": 15,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "cup": {
+        "gt": 0,
+        "pred": 3,
+        "tp": 0,
+        "fp": 3,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "dog": {
+        "gt": 2,
+        "pred": 4,
+        "tp": 2,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.5,
+        "recall": 1.0,
+        "ap": 1.0
+      },
+      "fire hydrant": {
+        "gt": 0,
+        "pred": 5,
+        "tp": 0,
+        "fp": 5,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "frisbee": {
+        "gt": 0,
+        "pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "handbag": {
+        "gt": 0,
+        "pred": 48,
+        "tp": 0,
+        "fp": 48,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "motorbike": {
+        "gt": 4,
+        "pred": 30,
+        "tp": 2,
+        "fp": 28,
+        "fn": 2,
+        "precision": 0.06666666666666667,
+        "recall": 0.5,
+        "ap": 0.054945054945054944
+      },
+      "orange": {
+        "gt": 0,
+        "pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "parking meter": {
+        "gt": 0,
+        "pred": 10,
+        "tp": 0,
+        "fp": 10,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "people": {
+        "gt": 136,
+        "pred": 442,
+        "tp": 120,
+        "fp": 322,
+        "fn": 16,
+        "precision": 0.27149321266968324,
+        "recall": 0.8823529411764706,
+        "ap": 0.7898526163503219
+      },
+      "potted plant": {
+        "gt": 0,
+        "pred": 32,
+        "tp": 0,
+        "fp": 32,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "scissors": {
+        "gt": 0,
+        "pred": 3,
+        "tp": 0,
+        "fp": 3,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "skateboard": {
+        "gt": 0,
+        "pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "stop sign": {
+        "gt": 0,
+        "pred": 9,
+        "tp": 0,
+        "fp": 9,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "suitcase": {
+        "gt": 0,
+        "pred": 17,
+        "tp": 0,
+        "fp": 17,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "surfboard": {
+        "gt": 0,
+        "pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "table": {
+        "gt": 8,
+        "pred": 5,
+        "tp": 0,
+        "fp": 5,
+        "fn": 8,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "tie": {
+        "gt": 0,
+        "pred": 5,
+        "tp": 0,
+        "fp": 5,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "traffic light": {
+        "gt": 0,
+        "pred": 127,
+        "tp": 0,
+        "fp": 127,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "train": {
+        "gt": 0,
+        "pred": 14,
+        "tp": 0,
+        "fp": 14,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "tv": {
+        "gt": 0,
+        "pred": 9,
+        "tp": 0,
+        "fp": 9,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "umbrella": {
+        "gt": 0,
+        "pred": 7,
+        "tp": 0,
+        "fp": 7,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      }
+    }
+  },
+  "Zero-DCE": {
+    "mAP@50": 0.3019376477790291,
+    "precision": 0.13568985176738882,
+    "recall": 0.6819484240687679,
+    "f1_score": 0.2263433190679981,
+    "tp": 238,
+    "fp": 1516,
+    "fn": 111,
+    "total_gt": 349,
+    "total_pred": 1754,
+    "avg_enh_latency": 366.85571670532227,
+    "avg_det_latency": 412.5692296028137,
+    "total_latency": 779.424946308136,
+    "class_breakdown": {
+      "airplane": {
+        "gt": 0,
+        "pred": 2,
+        "tp": 0,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "backpack": {
+        "gt": 0,
+        "pred": 55,
+        "tp": 0,
+        "fp": 55,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "bicycle": {
+        "gt": 163,
+        "pred": 461,
+        "tp": 120,
+        "fp": 341,
+        "fn": 43,
+        "precision": 0.2603036876355748,
+        "recall": 0.7361963190184049,
+        "ap": 0.595177167646934
+      },
+      "bird": {
+        "gt": 0,
+        "pred": 2,
+        "tp": 0,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "boat": {
+        "gt": 0,
+        "pred": 6,
+        "tp": 0,
+        "fp": 6,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "book": {
+        "gt": 0,
+        "pred": 53,
+        "tp": 0,
+        "fp": 53,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "bottle": {
+        "gt": 0,
+        "pred": 18,
+        "tp": 0,
+        "fp": 18,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "bowl": {
+        "gt": 0,
+        "pred": 4,
+        "tp": 0,
+        "fp": 4,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "bus": {
+        "gt": 1,
+        "pred": 13,
+        "tp": 1,
+        "fp": 12,
+        "fn": 0,
+        "precision": 0.07692307692307693,
+        "recall": 1.0,
+        "ap": 0.125
+      },
+      "car": {
+        "gt": 26,
+        "pred": 182,
+        "tp": 21,
+        "fp": 161,
+        "fn": 5,
+        "precision": 0.11538461538461539,
+        "recall": 0.8076923076923077,
+        "ap": 0.5499953822559175
+      },
+      "cat": {
+        "gt": 0,
+        "pred": 4,
+        "tp": 0,
+        "fp": 4,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "cell phone": {
+        "gt": 0,
+        "pred": 2,
+        "tp": 0,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "chair": {
+        "gt": 9,
+        "pred": 52,
+        "tp": 2,
+        "fp": 50,
+        "fn": 7,
+        "precision": 0.038461538461538464,
+        "recall": 0.2222222222222222,
+        "ap": 0.06049382716049383
+      },
+      "clock": {
+        "gt": 0,
+        "pred": 10,
+        "tp": 0,
+        "fp": 10,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "couch": {
+        "gt": 0,
+        "pred": 3,
+        "tp": 0,
+        "fp": 3,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "cow": {
+        "gt": 0,
+        "pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "cup": {
+        "gt": 0,
+        "pred": 2,
+        "tp": 0,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "dog": {
+        "gt": 2,
+        "pred": 9,
+        "tp": 1,
+        "fp": 8,
+        "fn": 1,
+        "precision": 0.1111111111111111,
+        "recall": 0.5,
+        "ap": 0.5
+      },
+      "fire hydrant": {
+        "gt": 0,
+        "pred": 16,
+        "tp": 0,
+        "fp": 16,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "handbag": {
+        "gt": 0,
+        "pred": 45,
+        "tp": 0,
+        "fp": 45,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "microwave": {
+        "gt": 0,
+        "pred": 2,
+        "tp": 0,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "motorbike": {
+        "gt": 4,
+        "pred": 28,
+        "tp": 2,
+        "fp": 26,
+        "fn": 2,
+        "precision": 0.07142857142857142,
+        "recall": 0.5,
+        "ap": 0.08571428571428572
+      },
+      "orange": {
+        "gt": 0,
+        "pred": 2,
+        "tp": 0,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "parking meter": {
+        "gt": 0,
+        "pred": 10,
+        "tp": 0,
+        "fp": 10,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "people": {
+        "gt": 136,
+        "pred": 486,
+        "tp": 91,
+        "fp": 395,
+        "fn": 45,
+        "precision": 0.18724279835390947,
+        "recall": 0.6691176470588235,
+        "ap": 0.49912051945460184
+      },
+      "potted plant": {
+        "gt": 0,
+        "pred": 46,
+        "tp": 0,
+        "fp": 46,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "refrigerator": {
+        "gt": 0,
+        "pred": 3,
+        "tp": 0,
+        "fp": 3,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "scissors": {
+        "gt": 0,
+        "pred": 10,
+        "tp": 0,
+        "fp": 10,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "sink": {
+        "gt": 0,
+        "pred": 2,
+        "tp": 0,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "skateboard": {
+        "gt": 0,
+        "pred": 6,
+        "tp": 0,
+        "fp": 6,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "stop sign": {
+        "gt": 0,
+        "pred": 7,
+        "tp": 0,
+        "fp": 7,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "suitcase": {
+        "gt": 0,
+        "pred": 12,
+        "tp": 0,
+        "fp": 12,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "surfboard": {
+        "gt": 0,
+        "pred": 5,
+        "tp": 0,
+        "fp": 5,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "table": {
+        "gt": 8,
+        "pred": 4,
+        "tp": 0,
+        "fp": 4,
+        "fn": 8,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "teddy bear": {
+        "gt": 0,
+        "pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "tennis racket": {
+        "gt": 0,
+        "pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "tie": {
+        "gt": 0,
+        "pred": 8,
+        "tp": 0,
+        "fp": 8,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "toothbrush": {
+        "gt": 0,
+        "pred": 6,
+        "tp": 0,
+        "fp": 6,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "traffic light": {
+        "gt": 0,
+        "pred": 147,
+        "tp": 0,
+        "fp": 147,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "train": {
+        "gt": 0,
+        "pred": 10,
+        "tp": 0,
+        "fp": 10,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "tv": {
+        "gt": 0,
+        "pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "umbrella": {
+        "gt": 0,
+        "pred": 15,
+        "tp": 0,
+        "fp": 15,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "vase": {
+        "gt": 0,
+        "pred": 2,
+        "tp": 0,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      }
+    }
+  },
+  "IGR-Net": {
+    "mAP@50": 0.28768448665334445,
+    "precision": 0.160445317616241,
+    "recall": 0.7020057306590258,
+    "f1_score": 0.2611940298507463,
+    "tp": 245,
+    "fp": 1282,
+    "fn": 104,
+    "total_gt": 349,
+    "total_pred": 1527,
+    "avg_enh_latency": 430.24389266967773,
+    "avg_det_latency": 407.700138092041,
+    "total_latency": 837.9440307617188,
+    "class_breakdown": {
+      "apple": {
+        "gt": 0,
+        "pred": 8,
+        "tp": 0,
+        "fp": 8,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "backpack": {
+        "gt": 0,
+        "pred": 49,
+        "tp": 0,
+        "fp": 49,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "banana": {
+        "gt": 0,
+        "pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "bed": {
+        "gt": 0,
+        "pred": 2,
+        "tp": 0,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "bicycle": {
+        "gt": 163,
+        "pred": 422,
+        "tp": 124,
+        "fp": 298,
+        "fn": 39,
+        "precision": 0.2938388625592417,
+        "recall": 0.7607361963190185,
+        "ap": 0.6265369207850727
+      },
+      "bird": {
+        "gt": 0,
+        "pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "boat": {
+        "gt": 0,
+        "pred": 5,
+        "tp": 0,
+        "fp": 5,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "book": {
+        "gt": 0,
+        "pred": 69,
+        "tp": 0,
+        "fp": 69,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "bottle": {
+        "gt": 0,
+        "pred": 33,
+        "tp": 0,
+        "fp": 33,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "bowl": {
+        "gt": 0,
+        "pred": 2,
+        "tp": 0,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "bus": {
+        "gt": 1,
+        "pred": 7,
+        "tp": 0,
+        "fp": 7,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "car": {
+        "gt": 26,
+        "pred": 150,
+        "tp": 20,
+        "fp": 130,
+        "fn": 6,
+        "precision": 0.13333333333333333,
+        "recall": 0.7692307692307693,
+        "ap": 0.5566652931032156
+      },
+      "cat": {
+        "gt": 0,
+        "pred": 3,
+        "tp": 0,
+        "fp": 3,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "cell phone": {
+        "gt": 0,
+        "pred": 3,
+        "tp": 0,
+        "fp": 3,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "chair": {
+        "gt": 9,
+        "pred": 43,
+        "tp": 2,
+        "fp": 41,
+        "fn": 7,
+        "precision": 0.046511627906976744,
+        "recall": 0.2222222222222222,
+        "ap": 0.18518518518518517
+      },
+      "clock": {
+        "gt": 0,
+        "pred": 8,
+        "tp": 0,
+        "fp": 8,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "cup": {
+        "gt": 0,
+        "pred": 3,
+        "tp": 0,
+        "fp": 3,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "dog": {
+        "gt": 2,
+        "pred": 5,
+        "tp": 1,
+        "fp": 4,
+        "fn": 1,
+        "precision": 0.2,
+        "recall": 0.5,
+        "ap": 0.25
+      },
+      "fire hydrant": {
+        "gt": 0,
+        "pred": 6,
+        "tp": 0,
+        "fp": 6,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "handbag": {
+        "gt": 0,
+        "pred": 44,
+        "tp": 0,
+        "fp": 44,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "microwave": {
+        "gt": 0,
+        "pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "motorbike": {
+        "gt": 4,
+        "pred": 25,
+        "tp": 2,
+        "fp": 23,
+        "fn": 2,
+        "precision": 0.08,
+        "recall": 0.5,
+        "ap": 0.13333333333333333
+      },
+      "orange": {
+        "gt": 0,
+        "pred": 2,
+        "tp": 0,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "parking meter": {
+        "gt": 0,
+        "pred": 10,
+        "tp": 0,
+        "fp": 10,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "people": {
+        "gt": 136,
+        "pred": 440,
+        "tp": 96,
+        "fp": 344,
+        "fn": 40,
+        "precision": 0.21818181818181817,
+        "recall": 0.7058823529411765,
+        "ap": 0.5497551608199487
+      },
+      "potted plant": {
+        "gt": 0,
+        "pred": 34,
+        "tp": 0,
+        "fp": 34,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "refrigerator": {
+        "gt": 0,
+        "pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "scissors": {
+        "gt": 0,
+        "pred": 3,
+        "tp": 0,
+        "fp": 3,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "skateboard": {
+        "gt": 0,
+        "pred": 5,
+        "tp": 0,
+        "fp": 5,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "stop sign": {
+        "gt": 0,
+        "pred": 11,
+        "tp": 0,
+        "fp": 11,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "suitcase": {
+        "gt": 0,
+        "pred": 19,
+        "tp": 0,
+        "fp": 19,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "surfboard": {
+        "gt": 0,
+        "pred": 4,
+        "tp": 0,
+        "fp": 4,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "table": {
+        "gt": 8,
+        "pred": 6,
+        "tp": 0,
+        "fp": 6,
+        "fn": 8,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "tie": {
+        "gt": 0,
+        "pred": 3,
+        "tp": 0,
+        "fp": 3,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "traffic light": {
+        "gt": 0,
+        "pred": 68,
+        "tp": 0,
+        "fp": 68,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "train": {
+        "gt": 0,
+        "pred": 9,
+        "tp": 0,
+        "fp": 9,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "tv": {
+        "gt": 0,
+        "pred": 5,
+        "tp": 0,
+        "fp": 5,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "umbrella": {
+        "gt": 0,
+        "pred": 14,
+        "tp": 0,
+        "fp": 14,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "vase": {
+        "gt": 0,
+        "pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "wine glass": {
+        "gt": 0,
+        "pred": 2,
+        "tp": 0,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      }
+    }
+  },
+  "Retinexformer": {
+    "mAP@50": 0.30126310197248596,
+    "precision": 0.1391962725684333,
+    "recall": 0.6848137535816619,
+    "f1_score": 0.2313649564375605,
+    "tp": 239,
+    "fp": 1478,
+    "fn": 110,
+    "total_gt": 349,
+    "total_pred": 1717,
+    "avg_enh_latency": 363.3889651298523,
+    "avg_det_latency": 411.62495136260986,
+    "total_latency": 775.0139164924622,
+    "class_breakdown": {
+      "backpack": {
+        "gt": 0,
+        "pred": 50,
+        "tp": 0,
+        "fp": 50,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "banana": {
+        "gt": 0,
+        "pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "bicycle": {
+        "gt": 163,
+        "pred": 446,
+        "tp": 122,
+        "fp": 324,
+        "fn": 41,
+        "precision": 0.273542600896861,
+        "recall": 0.7484662576687117,
+        "ap": 0.6155647597859442
+      },
+      "bird": {
+        "gt": 0,
+        "pred": 6,
+        "tp": 0,
+        "fp": 6,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "boat": {
+        "gt": 0,
+        "pred": 7,
+        "tp": 0,
+        "fp": 7,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "book": {
+        "gt": 0,
+        "pred": 55,
+        "tp": 0,
+        "fp": 55,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "bottle": {
+        "gt": 0,
+        "pred": 7,
+        "tp": 0,
+        "fp": 7,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "bus": {
+        "gt": 1,
+        "pred": 16,
+        "tp": 1,
+        "fp": 15,
+        "fn": 0,
+        "precision": 0.0625,
+        "recall": 1.0,
+        "ap": 0.3333333333333333
+      },
+      "car": {
+        "gt": 26,
+        "pred": 204,
+        "tp": 18,
+        "fp": 186,
+        "fn": 8,
+        "precision": 0.08823529411764706,
+        "recall": 0.6923076923076923,
+        "ap": 0.4849725301285848
+      },
+      "cat": {
+        "gt": 0,
+        "pred": 4,
+        "tp": 0,
+        "fp": 4,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "cell phone": {
+        "gt": 0,
+        "pred": 6,
+        "tp": 0,
+        "fp": 6,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "chair": {
+        "gt": 9,
+        "pred": 51,
+        "tp": 3,
+        "fp": 48,
+        "fn": 6,
+        "precision": 0.058823529411764705,
+        "recall": 0.3333333333333333,
+        "ap": 0.12301587301587301
+      },
+      "clock": {
+        "gt": 0,
+        "pred": 22,
+        "tp": 0,
+        "fp": 22,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "cup": {
+        "gt": 0,
+        "pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "dog": {
+        "gt": 2,
+        "pred": 4,
+        "tp": 1,
+        "fp": 3,
+        "fn": 1,
+        "precision": 0.25,
+        "recall": 0.5,
+        "ap": 0.25
+      },
+      "fire hydrant": {
+        "gt": 0,
+        "pred": 6,
+        "tp": 0,
+        "fp": 6,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "handbag": {
+        "gt": 0,
+        "pred": 52,
+        "tp": 0,
+        "fp": 52,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "motorbike": {
+        "gt": 4,
+        "pred": 44,
+        "tp": 2,
+        "fp": 42,
+        "fn": 2,
+        "precision": 0.045454545454545456,
+        "recall": 0.5,
+        "ap": 0.08035714285714285
+      },
+      "parking meter": {
+        "gt": 0,
+        "pred": 11,
+        "tp": 0,
+        "fp": 11,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "people": {
+        "gt": 136,
+        "pred": 466,
+        "tp": 92,
+        "fp": 374,
+        "fn": 44,
+        "precision": 0.19742489270386265,
+        "recall": 0.6764705882352942,
+        "ap": 0.5228611766590098
+      },
+      "potted plant": {
+        "gt": 0,
+        "pred": 19,
+        "tp": 0,
+        "fp": 19,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "refrigerator": {
+        "gt": 0,
+        "pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "scissors": {
+        "gt": 0,
+        "pred": 2,
+        "tp": 0,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "skateboard": {
+        "gt": 0,
+        "pred": 3,
+        "tp": 0,
+        "fp": 3,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "stop sign": {
+        "gt": 0,
+        "pred": 11,
+        "tp": 0,
+        "fp": 11,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "suitcase": {
+        "gt": 0,
+        "pred": 22,
+        "tp": 0,
+        "fp": 22,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "surfboard": {
+        "gt": 0,
+        "pred": 2,
+        "tp": 0,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "table": {
+        "gt": 8,
+        "pred": 5,
+        "tp": 0,
+        "fp": 5,
+        "fn": 8,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "tie": {
+        "gt": 0,
+        "pred": 4,
+        "tp": 0,
+        "fp": 4,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "traffic light": {
+        "gt": 0,
+        "pred": 167,
+        "tp": 0,
+        "fp": 167,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "train": {
+        "gt": 0,
+        "pred": 9,
+        "tp": 0,
+        "fp": 9,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "tv": {
+        "gt": 0,
+        "pred": 8,
+        "tp": 0,
+        "fp": 8,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      },
+      "umbrella": {
+        "gt": 0,
+        "pred": 5,
+        "tp": 0,
+        "fp": 5,
+        "fn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap": 0.0
+      }
+    }
+  }
+}

@@ -56,6 +56,42 @@ This platform implements and evaluates a **Recognition-Aware Low-Light Enhanceme
 
 ---
 
+## 📊 Empirical Evaluation & Benchmark Results
+
+### 1. LOL Dataset Paired Image Quality Benchmark ($N=15$ `eval15` paired scenes)
+Evaluated strictly against paired high-exposure ground truth references:
+
+| Enhancement Method | PSNR (dB) ↑ | SSIM ↑ | NIQE (Naturalness) ↓ | Enh. Latency (ms) | Parameters |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Original (Baseline)** | 7.77 | 0.1265 | 5.63 | 0.0 ms | 0 |
+| **Zero-DCE (CVPR 2020)** | **17.12** | **0.8637** | 9.40 | 274.5 ms | 79,416 |
+| **IGR-Net (Proposed)** | 8.76 | 0.1706 | 6.56 | 343.0 ms | 62,060 |
+| **Retinexformer (Adapted)** | 11.64 | 0.4073 | **5.85** | 297.2 ms | 28,708 |
+
+### 2. ExDark Object Detection Benchmark ($N=100$ Scenes, D-FINE-S $\tau=0.25$, $\text{IoU}\ge 0.50$)
+
+| Condition | mAP@50 | Precision | Recall | F1-Score | True Positives (TP) | False Positives (FP) | False Negatives (FN) | Pipeline Latency (ms) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Original (Raw Baseline)** | **0.487** | **0.181** | **0.840** | **0.297** | **293** | 1329 | **56** | **422.9 ms** |
+| **Zero-DCE** | 0.302 | 0.136 | 0.682 | 0.226 | 238 | 1516 | 111 | 779.4 ms |
+| **IGR-Net** | 0.288 | 0.160 | 0.702 | 0.261 | 245 | **1282** | 104 | 837.9 ms |
+| **Retinexformer** | 0.301 | 0.139 | 0.685 | 0.231 | 239 | 1478 | 110 | 775.0 ms |
+
+### 3. Downstream Detector Confidence Threshold Ablation ($\tau \in [0.15, 0.50]$)
+
+| Threshold ($\tau$) | Condition | Precision | Recall | F1-Score | True Positives (TP) | False Positives (FP) |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: |
+| $\tau = 0.15$ | Original | 0.072 | 0.833 | 0.132 | 75 | 973 |
+| | IGR-Net | 0.073 | 0.767 | 0.133 | 69 | 879 |
+| $\tau = 0.25$ | Original | 0.171 | 0.800 | 0.282 | 72 | 349 |
+| | IGR-Net | 0.171 | 0.733 | 0.277 | 66 | 321 |
+| $\tau = 0.35$ | Original | 0.287 | 0.778 | 0.419 | 70 | 174 |
+| | IGR-Net | 0.288 | 0.711 | 0.410 | 64 | 158 |
+| $\tau = 0.50$ | Original | 0.504 | 0.744 | 0.601 | 67 | 66 |
+| | IGR-Net | 0.504 | 0.667 | 0.574 | 60 | 59 |
+
+---
+
 ## 🖼️ Application Showcase
 
 The research platform provides a unified real-time evaluation environment comparing physical Retinex enhancement with downstream D-FINE-S object detection.
