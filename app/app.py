@@ -953,12 +953,13 @@ if acquired_image is not None:
                                     ('2015_02446' in uploaded_fname and '2015_02446' in image_name) or \
                                     ('yellow_bicycle' in uploaded_fname and 'yellow_bicycle' in image_name)
                     
-                    if not is_same_scene:
-                        for s_img, s_txt in SAMPLE_GT_LOOKUP.items():
-                            if s_txt.lower() == uploaded_fname.lower() or (uploaded_fname.startswith("2015_") and uploaded_fname.split(".")[0] in s_img):
-                                if s_img != image_name:
-                                    target_candidate = s_img
-                                break
+                    if not is_same_scene and annotation_indexer is not None:
+                        # Check indexer to see if this uploaded annotation belongs to another known scene
+                        matched_scene_img, _, _ = annotation_indexer.lookup(uploaded_fname)
+                        if matched_scene_img:
+                            b_img = os.path.basename(matched_scene_img)
+                            if b_img != image_name:
+                                target_candidate = b_img
                     
                     if target_candidate is not None:
                         st.warning(f"⚠️ **Scene Mismatch Notice:**\nUploaded `{uploaded_fname}` belongs to scene `{target_candidate}`, but the current active scene is `{image_name}`.\n\nBecause objects are at different coordinates, evaluating on `{image_name}` produces 0 TP.")
