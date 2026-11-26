@@ -1030,45 +1030,54 @@ if acquired_image is not None:
                     st.info("LOL paired evaluation initiated.")
 
         # ---------------------------------------------------------
-        # DISPLAY EXDARK BENCHMARK RESULTS (IF COMPUTED)
+        # DISPLAY EXDARK BENCHMARK RESULTS (ALL 4 CONDITIONS)
         # ---------------------------------------------------------
         if "exdark_benchmark" in st.session_state:
             eb = st.session_state["exdark_benchmark"]
             st.markdown(f"#### 🎯 Ground-Truth Benchmark Results: `{eb['filename']}` on `{eb.get('target_image', image_name)}` ({eb['gt_count']} GT targets, Evaluated at {eb['timestamp']})")
             st.caption(f"ℹ️ Note: This evaluation is performed on `{eb.get('target_image', image_name)}` ({eb.get('resolution', '')}) using class-aware IoU matching against `{eb['filename']}`. Official dataset-wide mAP requires full ExDark validation batch.")
 
-            for b_name, b_metrics in eb["results"].items():
-                st.markdown(f"**Condition: {b_name}**")
-                
-                # Top KPI Row for the evaluation
-                kpi_cols = st.columns(5)
-                kpi_cols[0].metric("mAP@50", f"{b_metrics['mAP@50']:.3f}")
-                kpi_cols[1].metric("Precision", f"{b_metrics['precision']:.3f}")
-                kpi_cols[2].metric("Recall", f"{b_metrics['recall']:.3f}")
-                kpi_cols[3].metric("F1-Score", f"{b_metrics['f1_score']:.3f}")
-                kpi_cols[4].metric("Matching Status", f"{b_metrics['tp']} TP / {b_metrics['fp']} FP / {b_metrics['fn']} FN")
+            # Create distinct tabs for all 4 conditions to clearly inspect Bounding Box IoU Matches
+            eval_condition_keys = list(eb["results"].keys())
+            if len(eval_condition_keys) > 1:
+                eb_tabs = st.tabs([f"📊 {k}" for k in eval_condition_keys])
+            else:
+                eb_tabs = [st.container()]
 
-                # Detailed Class-Wise Breakdown Table
-                cb = b_metrics["class_breakdown"]
-                if cb:
-                    table_rows = []
-                    for c_name, c_data in cb.items():
-                        table_rows.append({
-                            "Class": c_name.capitalize(),
-                            "Ground Truth Count": c_data["gt"],
-                            "Predicted Count": c_data["pred"],
-                            "True Positives (TP)": c_data["tp"],
-                            "False Positives (FP)": c_data["fp"],
-                            "False Negatives (FN)": c_data["fn"],
-                            "Class Precision": f"{c_data['precision']:.3f}",
-                            "Class Recall": f"{c_data['recall']:.3f}",
-                            "Class AP": f"{c_data['ap']:.3f}"
-                        })
-                    st.dataframe(table_rows, use_container_width=True)
+            for t_idx, b_name in enumerate(eval_condition_keys):
+                b_metrics = eb["results"][b_name]
+                with eb_tabs[t_idx]:
+                    st.markdown(f"##### Condition: **{b_name}**")
+                    
+                    # Top KPI Row for this condition
+                    kpi_cols = st.columns(5)
+                    kpi_cols[0].metric("mAP@50", f"{b_metrics['mAP@50']:.3f}")
+                    kpi_cols[1].metric("Precision", f"{b_metrics['precision']:.3f}")
+                    kpi_cols[2].metric("Recall", f"{b_metrics['recall']:.3f}")
+                    kpi_cols[3].metric("F1-Score", f"{b_metrics['f1_score']:.3f}")
+                    kpi_cols[4].metric("Matching Status", f"{b_metrics['tp']} TP / {b_metrics['fp']} FP / {b_metrics['fn']} FN")
 
-                # Bounding Box Match Details (Inspection Table)
-                if "matches" in b_metrics and b_metrics["matches"]:
-                    with st.expander(f"🔍 Bounding Box IoU Matches & Overlap Analysis ({b_name})", expanded=True):
+                    # Detailed Class-Wise Breakdown Table
+                    cb = b_metrics["class_breakdown"]
+                    if cb:
+                        table_rows = []
+                        for c_name, c_data in cb.items():
+                            table_rows.append({
+                                "Class": c_name.capitalize(),
+                                "Ground Truth Count": c_data["gt"],
+                                "Predicted Count": c_data["pred"],
+                                "True Positives (TP)": c_data["tp"],
+                                "False Positives (FP)": c_data["fp"],
+                                "False Negatives (FN)": c_data["fn"],
+                                "Class Precision": f"{c_data['precision']:.3f}",
+                                "Class Recall": f"{c_data['recall']:.3f}",
+                                "Class AP": f"{c_data['ap']:.3f}"
+                            })
+                        st.dataframe(table_rows, use_container_width=True)
+
+                    # Bounding Box Match Details (Inspection Table with Overlap Analysis)
+                    if "matches" in b_metrics and b_metrics["matches"]:
+                        st.markdown(f"**🔍 Bounding Box IoU Matches & Overlap Analysis ({b_name})**")
                         st.dataframe(b_metrics["matches"], use_container_width=True)
             st.markdown("---")
 

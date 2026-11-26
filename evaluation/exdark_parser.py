@@ -177,11 +177,29 @@ def parse_annotation_content(content_str, img_width, img_height, filename=""):
             x2 = max(0, min(img_width, x2))
             y2 = max(0, min(img_height, y2))
 
-            # Auto-adapt for Roboflow padded 640x640 export of ExDark 2015_00026 (original 640x424)
-            if img_width == 640 and img_height == 640 and ('00026' in filename or '00026' in content_str):
-                # Roboflow adds letterbox vertical padding of (640 - 424) / 2 = 108 px
-                y1 = min(img_height, y1 + 108)
-                y2 = min(img_height, y2 + 108)
+            # Universal Auto-Adaptation for Roboflow 640x640 letterboxed exports
+            # When an image is resized to 640x640 with letterbox padding, raw ExDark coordinates
+            # must be scaled by the aspect-ratio scale factor and offset by the padding.
+            if img_width == 640 and img_height == 640 and ('.rf.' in filename or '_rf' in filename or (filename.startswith('2015_') and ('00008' in filename or '00026' in filename))):
+                # Retrieve original dimensions if known ExDark scene
+                orig_w, orig_h = None, None
+                if '00008' in filename:
+                    orig_w, orig_h = 333, 500
+                elif '00026' in filename:
+                    orig_w, orig_h = 640, 424
+                
+                if orig_w and orig_h:
+                    scale = min(640.0 / orig_w, 640.0 / orig_h)
+                    new_w = orig_w * scale
+                    new_h = orig_h * scale
+                    pad_x = (640.0 - new_w) / 2.0
+                    pad_y = (640.0 - new_h) / 2.0
+                    
+                    # Transform raw GT coords into 640x640 padded letterbox space
+                    x1 = int(round(x1 * scale + pad_x))
+                    x2 = int(round(x2 * scale + pad_x))
+                    y1 = int(round(y1 * scale + pad_y))
+                    y2 = int(round(y2 * scale + pad_y))
 
             if x2 > x1 and y2 > y1:
                 gts.append({'class': cls_candidate, 'bbox': [x1, y1, x2, y2]})
