@@ -11,6 +11,43 @@ EXDARK_CLASSES = [
 ]
 EXDARK_LOWER = [c.lower() for c in EXDARK_CLASSES]
 
+# Cache of native ExDark image resolutions to support Roboflow/padded letterboxed uploads
+_EXDARK_SIZES_CACHE = None
+
+def _get_exdark_native_size(filename):
+    global _EXDARK_SIZES_CACHE
+    if _EXDARK_SIZES_CACHE is None:
+        try:
+            curr_dir = os.path.dirname(os.path.abspath(__file__))
+            proj_root = os.path.dirname(curr_dir)
+            cache_file = os.path.join(proj_root, "outputs", "cache", "exdark_image_sizes.json")
+            if os.path.exists(cache_file):
+                with open(cache_file, "r", encoding="utf-8") as f:
+                    _EXDARK_SIZES_CACHE = json.load(f)
+            else:
+                _EXDARK_SIZES_CACHE = {}
+        except Exception:
+            _EXDARK_SIZES_CACHE = {}
+
+    if not filename or not _EXDARK_SIZES_CACHE:
+        return None, None
+
+    # Try matching by ExDark ID pattern like 2015_00009
+    match = re.search(r'(2015_\d{5})', filename)
+    if match:
+        stem = match.group(1)
+        if stem in _EXDARK_SIZES_CACHE:
+            return _EXDARK_SIZES_CACHE[stem][0], _EXDARK_SIZES_CACHE[stem][1]
+
+    # Try matching by direct stem
+    base = os.path.splitext(os.path.basename(filename))[0]
+    if base.endswith('.jpg') or base.endswith('.png') or base.endswith('.jpeg'):
+        base = os.path.splitext(base)[0]
+    if base in _EXDARK_SIZES_CACHE:
+        return _EXDARK_SIZES_CACHE[base][0], _EXDARK_SIZES_CACHE[base][1]
+
+    return None, None
+
 def parse_annotation_content(content_str, img_width, img_height, filename=""):
     """
     Parses ExDark annotation from string content.
@@ -180,15 +217,11 @@ def parse_annotation_content(content_str, img_width, img_height, filename=""):
             # Universal Auto-Adaptation for Roboflow 640x640 letterboxed exports
             # When an image is resized to 640x640 with letterbox padding, raw ExDark coordinates
             # must be scaled by the aspect-ratio scale factor and offset by the padding.
-            if img_width == 640 and img_height == 640 and ('.rf.' in filename or '_rf' in filename or (filename.startswith('2015_') and ('00008' in filename or '00026' in filename))):
-                # Retrieve original dimensions if known ExDark scene
-                orig_w, orig_h = None, None
-                if '00008' in filename:
-                    orig_w, orig_h = 333, 500
-                elif '00026' in filename:
-                    orig_w, orig_h = 640, 424
+            if img_width == 640 and img_height == 640 and ('.rf.' in filename or '_rf' in filename or filename.startswith('2015_')):
+                orig_w, orig_h = _get_exdark_native_size(filename)
                 
-                if orig_w and orig_h:
+                # If native dimensions differ from 640x640, compute letterbox mapping
+                if orig_w and orig_h and (orig_w != 640 or orig_h != 640):
                     scale = min(640.0 / orig_w, 640.0 / orig_h)
                     new_w = orig_w * scale
                     new_h = orig_h * scale
